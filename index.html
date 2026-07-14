@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 21st Birthday Esa!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #87CEEB; /* Sky blue background */
+            overflow: hidden;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .greeting-container {
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .greeting {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, #ff0000, #ffa500, #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .emoji {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(110vh) rotate(0deg); 
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-10vh) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .greeting { 
+                font-size: 2.8rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="greeting-container">
+        <h1 class="greeting">Happy 21st<br>Birthday Esa!</h1>
+    </div>
+
+    <script>
+        function spawnEmoji(isInitial = false) {
+            const emojis = ['🦒', '🌈', '🥂', '🍾', '🍻', '🍹', '🍸', '🍷'];
+            const emojiEl = document.createElement('div');
+            
+            emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            emojiEl.className = 'emoji';
+
+            const startPosX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 4 + 4; // Between 4 and 8 seconds
+            const size = Math.random() * 2 + 1.5; // Between 1.5rem and 3.5rem
+
+            emojiEl.style.left = startPosX + 'px';
+            emojiEl.style.animationDuration = duration + 's';
+            emojiEl.style.fontSize = size + 'rem';
+
+            // If it's part of the initial load, apply a negative delay so it appears mid-animation
+            if (isInitial) {
+                emojiEl.style.animationDelay = `-${Math.random() * duration}s`;
+            }
+
+            document.body.appendChild(emojiEl);
+
+            // Clean up the DOM element after its animation max duration completes
+            setTimeout(() => {
+                emojiEl.remove();
+            }, duration * 1000);
+        }
+
+        // Instantly fill the screen with emojis on load
+        for (let i = 0; i < 45; i++) {
+            spawnEmoji(true);
+        }
+
+        // Spawn a new emoji every 133 milliseconds (~3x faster than the original 400ms)
+        setInterval(() => spawnEmoji(false), 133);
+    </script>
+</body>
+</html>
