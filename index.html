@@ -35,7 +35,7 @@
             font-weight: 900;
             margin: 0;
             /* MSU Green and White text effect */
-            background: linear-gradient(to right, #18453B, #ffffff, #18453B, #ffffff, #18453B);
+            background: #18453B;
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -107,7 +107,7 @@
         const scoreDisplay = document.getElementById('score-display');
 
         function spawnEmoji(isInitial = false) {
-            const emojis = ['🦒', '🌈', '🥂', '🍾', '🍻', '🍹', '🍸', '🍷', '🕹️', '🎮', '🎧', '👾', '🖱️'];
+            const emojis = ['🦒', '🌈', '🥂', '🍾', '🍻', '🍹', '🍸', '🍷', '🕹️', '🎮', '🎧', '👾'];
             const emojiEl = document.createElement('div');
             
             emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
