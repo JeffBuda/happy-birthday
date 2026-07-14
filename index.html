@@ -22,6 +22,7 @@
             z-index: 10;
             text-align: center;
             padding: 20px;
+            pointer-events: none; 
         }
 
         .greeting {
@@ -29,13 +30,12 @@
             font-weight: 900;
             margin: 0;
             /* MSU Green and White text effect */
-            background: #18453B;
+            background: linear-gradient(to right, #18453B, #ffffff, #18453B, #ffffff, #18453B);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: pulse 2s infinite;
-            /* Darkened the shadow slightly so the white stands out against the blue */
             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
         }
 
@@ -45,12 +45,28 @@
             100% { transform: scale(1); }
         }
 
+        #score-display {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #18453B; /* MSU Green */
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 25px;
+            z-index: 20;
+            user-select: none;
+            pointer-events: none; /* Prevents the score box from blocking emoji taps */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         .emoji {
             position: absolute;
             top: 0; 
             user-select: none;
-            pointer-events: none;
+            cursor: pointer; 
             animation: floatUp linear forwards;
+            -webkit-tap-highlight-color: transparent; 
         }
 
         @keyframes floatUp {
@@ -83,10 +99,16 @@
         <h1 class="greeting">Happy 21st<br>Birthday Esa!</h1>
     </div>
 
+    <!-- New Score Element -->
+    <div id="score-display">Score: 0</div>
+
     <script>
+        // Track the user's score globally
+        let score = 0;
+        const scoreDisplay = document.getElementById('score-display');
+
         function spawnEmoji(isInitial = false) {
-            // Added gaming emojis to the mix
-            const emojis = ['🦒', '🌈', '🦄', '🥂', '🍾', '🍻', '🍹', '🍸', '🍷', '🕹️', '🎮', '🎧', '⛅', '🌤️', '🌥️','☁️'];
+            const emojis = ['🦒', '🌈', '🥂', '🍾', '🍻', '🍹', '🍸', '🍷', '🕹️', '🎮', '🎧', '👾', '🖱️'];
             const emojiEl = document.createElement('div');
             
             emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
@@ -104,10 +126,20 @@
                 emojiEl.style.animationDelay = `-${Math.random() * duration}s`;
             }
 
+            // Increase score when an emoji is successfully tapped
+            emojiEl.onpointerdown = function(e) {
+                e.preventDefault(); 
+                score++; // Increment score
+                scoreDisplay.innerText = `Score: ${score}`; // Update the text on screen
+                this.remove();
+            };
+
             document.body.appendChild(emojiEl);
 
             setTimeout(() => {
-                emojiEl.remove();
+                if (document.body.contains(emojiEl)) {
+                    emojiEl.remove();
+                }
             }, duration * 1000);
         }
 
