@@ -9,7 +9,8 @@
             margin: 0;
             padding: 0;
             width: 100vw;
-            height: 100vh;
+            height: 100vh; /* Fallback for older browsers */
+            height: 100dvh; /* Fixes the mobile browser navigation bar overlap */
             position: fixed;
             background-color: #87CEEB; /* Sky blue background */
             overflow: hidden;
@@ -35,12 +36,13 @@
             font-weight: 900;
             margin: 0;
             color: #18453B; /* Solid MSU Green */
-            text-shadow: 2px 4px 6px rgba(0,0,0,0.4); /* Standard shadow for solid text */
+            text-shadow: 2px 4px 6px rgba(0,0,0,0.4); 
         }
 
         #score-display {
-            position: absolute;
-            bottom: 30px;
+            position: fixed; /* Changed from absolute to fixed */
+            /* Pushes it up 40px minimum, plus the height of the iOS home bar if it exists */
+            bottom: calc(40px + env(safe-area-inset-bottom, 0px));
             font-size: 1.5rem;
             font-weight: bold;
             color: #18453B; 
